@@ -16,7 +16,6 @@ package com.microsoftopentechnologies.windowsazurestorage;
 
 import com.microsoft.azure.storage.blob.BlobProperties;
 import com.microsoft.azure.storage.blob.CloudBlob;
-import com.microsoft.azure.storage.blob.CloudBlockBlob;
 import hudson.EnvVars;
 import hudson.Extension;
 import hudson.Util;
@@ -34,10 +33,10 @@ public class AzureBlobProperties implements Describable<AzureBlobProperties> {
 
     @DataBoundConstructor
     public AzureBlobProperties(
-        String cacheControl,
-        String contentEncoding,
-        String contentLanguage,
-        String contentType
+            String cacheControl,
+            String contentEncoding,
+            String contentLanguage,
+            String contentType
     ) {
         this.cacheControl = cacheControl;
         this.contentEncoding = contentEncoding;

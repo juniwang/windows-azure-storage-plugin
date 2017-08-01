@@ -90,7 +90,6 @@ public class WAStorageClientDownloadIT extends IntegrationTest {
         AzureStorageBuilder builder = new AzureStorageBuilder(testEnvironment.storageCredentialId, downloadType);
         builder.setContainerName(containername);
         includeFilesPattern = "*";
-        FilePath workspace_before = project.getWorkspace();
         builder.setIncludeFilesPattern(includeFilesPattern);
         project.getBuildersList().add(builder);
         FreeStyleBuild build = project.scheduleBuild2(0).get();
@@ -102,10 +101,6 @@ public class WAStorageClientDownloadIT extends IntegrationTest {
             String content = FileUtils.readFileToString(f);
             assertEquals(f.getName().trim(), fileHashMap.get(content).trim());
         }
-        XmlFile xmlFile = project.getConfigFile();
-        XStream xStream = xmlFile.getXStream();
-        String string = xStream.toString();
-        String xml = (String) xStream.fromXML(xmlFile.getFile());
     }
 
     @Test

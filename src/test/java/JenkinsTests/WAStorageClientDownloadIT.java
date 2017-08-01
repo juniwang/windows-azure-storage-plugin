@@ -5,7 +5,6 @@ import com.microsoft.azure.storage.StorageCredentialsAccountAndKey;
 import com.microsoft.azure.storage.blob.CloudBlobClient;
 import com.microsoft.azure.storage.blob.CloudBlobContainer;
 import com.microsoft.azure.storage.blob.CloudBlockBlob;
-import com.microsoft.azure.storage.file.CloudFileShare;
 import com.microsoftopentechnologies.windowsazurestorage.AzureStorageBuilder;
 import com.thoughtworks.xstream.XStream;
 import hudson.FilePath;
@@ -20,7 +19,6 @@ import org.junit.Test;
 import java.io.File;
 import java.util.HashMap;
 import java.util.UUID;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static com.microsoftopentechnologies.windowsazurestorage.AzureStorageBuilder.DOWNLOAD_TYPE_CONTAINER;
@@ -92,6 +90,7 @@ public class WAStorageClientDownloadIT extends IntegrationTest {
         AzureStorageBuilder builder = new AzureStorageBuilder(testEnvironment.storageCredentialId, downloadType);
         builder.setContainerName(containername);
         includeFilesPattern = "*";
+        FilePath workspace_before = project.getWorkspace();
         builder.setIncludeFilesPattern(includeFilesPattern);
         project.getBuildersList().add(builder);
         FreeStyleBuild build = project.scheduleBuild2(0).get();

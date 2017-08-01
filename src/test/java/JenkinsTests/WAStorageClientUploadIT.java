@@ -1,4 +1,4 @@
-package MyTest;
+package JenkinsTests;
 
 import com.microsoft.azure.storage.CloudStorageAccount;
 import com.microsoft.azure.storage.StorageCredentialsAccountAndKey;

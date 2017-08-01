@@ -1,4 +1,4 @@
-package MyTest;
+package JenkinsTests;
 
 import com.microsoft.azure.storage.CloudStorageAccount;
 import com.microsoft.azure.storage.StorageCredentialsAccountAndKey;
@@ -7,7 +7,9 @@ import com.microsoft.azure.storage.blob.CloudBlobContainer;
 import com.microsoft.azure.storage.blob.CloudBlockBlob;
 import com.microsoft.azure.storage.file.CloudFileShare;
 import com.microsoftopentechnologies.windowsazurestorage.AzureStorageBuilder;
+import com.thoughtworks.xstream.XStream;
 import hudson.FilePath;
+import hudson.XmlFile;
 import hudson.model.FreeStyleBuild;
 import hudson.model.FreeStyleProject;
 import org.apache.commons.io.FileUtils;
@@ -101,6 +103,10 @@ public class WAStorageClientDownloadIT extends IntegrationTest {
             String content = FileUtils.readFileToString(f);
             assertEquals(f.getName().trim(), fileHashMap.get(content).trim());
         }
+        XmlFile xmlFile = project.getConfigFile();
+        XStream xStream = xmlFile.getXStream();
+        String string = xStream.toString();
+        String xml = (String) xStream.fromXML(xmlFile.getFile());
     }
 
     @Test

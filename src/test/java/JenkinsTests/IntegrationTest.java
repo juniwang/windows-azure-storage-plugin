@@ -1,24 +1,16 @@
 package JenkinsTests;
 
-import com.cloudbees.plugins.credentials.CredentialsMatchers;
 import com.cloudbees.plugins.credentials.CredentialsProvider;
 import com.cloudbees.plugins.credentials.CredentialsScope;
 import com.cloudbees.plugins.credentials.CredentialsStore;
 import com.cloudbees.plugins.credentials.domains.Domain;
-import com.cloudbees.plugins.credentials.domains.DomainRequirement;
 import com.microsoftopentechnologies.windowsazurestorage.helper.AzureCredentials;
-import hudson.security.ACL;
-import hudson.util.Secret;
 import jenkins.model.Jenkins;
 import org.junit.ClassRule;
-import org.junit.Test;
 import org.jvnet.hudson.test.JenkinsRule;
 
-import java.util.Collections;
 import java.util.UUID;
 import java.util.logging.Logger;
-
-import static org.junit.Assert.assertEquals;
 
 /**
  * Created by t-yuhang on 7/25/2017.

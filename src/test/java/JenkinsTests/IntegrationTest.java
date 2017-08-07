@@ -16,6 +16,7 @@ import java.util.logging.Logger;
  * Created by t-yuhang on 7/25/2017.
  */
 public class IntegrationTest {
+
     @ClassRule
     public static JenkinsRule j = new JenkinsRule();
 
@@ -54,20 +55,4 @@ public class IntegrationTest {
             credentialsStore.addCredentials(Domain.global(), azureCredentials);
         }
     }
-
-//    @Test
-//    public void ConfigureTest() throws Exception {
-//        TestEnvironment testEnvironment = new TestEnvironment();
-//        AzureCredentials azureCredentials = CredentialsMatchers.firstOrNull(
-//                CredentialsProvider.lookupCredentials(
-//                        AzureCredentials.class,
-//                        Jenkins.getInstance(),
-//                        ACL.SYSTEM,
-//                        Collections.<DomainRequirement>emptyList()),
-//                CredentialsMatchers.withId(testEnvironment.storageCredentialId));
-//        assertEquals(azureCredentials.getId(), testEnvironment.storageCredentialId);
-//        assertEquals(azureCredentials.getStorageAccountName(), testEnvironment.azureStorageAccountName);
-//        assertEquals(azureCredentials.getStorageKey(), Secret.fromString(testEnvironment.azureStorageAccountKey1).getEncryptedValue());
-//        assertEquals(azureCredentials.getBlobEndpointURL(), testEnvironment.blobURL);
-//    }
 }

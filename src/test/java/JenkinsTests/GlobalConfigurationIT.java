@@ -18,9 +18,14 @@ import static org.junit.Assert.assertEquals;
  */
 public class GlobalConfigurationIT extends IntegrationTest {
 
+    TestEnvironment testEnvironment;
+
+    public void setUp() throws Exception {
+        testEnvironment = new TestEnvironment();
+    }
+
     @Test
     public void CredentialTest() throws Exception {
-        TestEnvironment testEnvironment = new TestEnvironment();
         AzureCredentials azureCredentials = CredentialsMatchers.firstOrNull(
                 CredentialsProvider.lookupCredentials(
                         AzureCredentials.class,

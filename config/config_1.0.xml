@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties/>
+  <scm class="hudson.scm.NullSCM"/>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers/>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <com.microsoftopentechnologies.windowsazurestorage.AzureStorageBuilder plugin="windows-azure-storage@0.3.7-SNAPSHOT">
+      <downloadType>container</downloadType>
+      <deleteFromAzureAfterDownload>false</deleteFromAzureAfterDownload>
+      <storageCredentialId>1ad52f1a-41f1-453a-b3f2-e6f6ab9532e1</storageCredentialId>
+      <containerName>bootdiagnostics-dcosagent-29ece508-0642-4c0f-8989-0f81e45bcca1</containerName>
+      <fileShare></fileShare>
+      <includeFilesPattern>*.bmp</includeFilesPattern>
+      <excludeFilesPattern></excludeFilesPattern>
+      <downloadDirLoc>D:\</downloadDirLoc>
+      <flattenDirectories>false</flattenDirectories>
+      <includeArchiveZips>false</includeArchiveZips>
+      <projectName></projectName>
+    </com.microsoftopentechnologies.windowsazurestorage.AzureStorageBuilder>
+  </builders>
+  <publishers/>
+  <buildWrappers/>
+</project>

@@ -1,6 +1,7 @@
-package JenkinsTests;
+package PremiumJenkinsTests;
 
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Iterators;
 import com.microsoft.azure.storage.CloudStorageAccount;
 import com.microsoft.azure.storage.StorageCredentialsAccountAndKey;
 import com.microsoft.azure.storage.blob.CloudBlobClient;
@@ -16,6 +17,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.UUID;
 import java.util.logging.Logger;
 
@@ -98,9 +100,7 @@ public class WAStorageClientUploadIT extends IntegrationTest {
         project.getPublishersList().add(publisher);
         FreeStyleBuild build = project.scheduleBuild2(0).get();
 
-        int count = 0;
         for (ListBlobItem blobItem: container.listBlobs()) {
-            count ++;
             if (blobItem instanceof CloudBlockBlob) {
                 CloudBlockBlob blob = (CloudBlockBlob) blobItem;
                 String content = blob.downloadText();

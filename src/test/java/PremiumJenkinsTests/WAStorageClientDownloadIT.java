@@ -1,4 +1,4 @@
-package JenkinsTests;
+package PremiumJenkinsTests;
 
 import com.microsoft.azure.storage.CloudStorageAccount;
 import com.microsoft.azure.storage.StorageCredentialsAccountAndKey;
@@ -9,13 +9,18 @@ import com.microsoftopentechnologies.windowsazurestorage.AzureStorageBuilder;
 import hudson.FilePath;
 import hudson.model.FreeStyleBuild;
 import hudson.model.FreeStyleProject;
+import hudson.tasks.Builder;
 import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import javax.xml.transform.Source;
+import javax.xml.transform.stream.StreamSource;
 import java.io.File;
+import java.io.FileInputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 import java.util.logging.Logger;
 
@@ -62,6 +67,7 @@ public class WAStorageClientDownloadIT extends IntegrationTest {
         if(!dir.exists()) {
             dir.mkdir();
         }
+
         for(int i = 0; i < 20; i ++) {
             String content = testEnvironment.GenerateRandomString(32);
             File file = new File(dir, UUID.randomUUID().toString() + ".txt");
@@ -86,11 +92,15 @@ public class WAStorageClientDownloadIT extends IntegrationTest {
     @Test
     public void AllFilesTest() throws Exception {
         FreeStyleProject project = j.createFreeStyleProject();
-        AzureStorageBuilder builder = new AzureStorageBuilder(testEnvironment.storageCredentialId, downloadType);
-        builder.setContainerName(containername);
-        includeFilesPattern = "*";
-        builder.setIncludeFilesPattern(includeFilesPattern);
-        project.getBuildersList().add(builder);
+        project.updateByXml((Source)new StreamSource(new FileInputStream(new File("D:\\jenkinsci\\windows-azure-storage-plugin\\src\\test\\resources\\WAStorageClientUploadITAllFilesTest.xml"))));
+
+        List<Builder> builderList =  project.getBuilders();
+        for(Builder builder: builderList) {
+            if(builder instanceof AzureStorageBuilder) {
+                ((AzureStorageBuilder) builder).setContainerName(containername);
+            }
+        }
+
         FreeStyleBuild build = project.scheduleBuild2(0).get();
         FilePath filePath = build.getWorkspace();
         File file = new File(filePath.getRemote());
@@ -105,11 +115,15 @@ public class WAStorageClientDownloadIT extends IntegrationTest {
     @Test
     public void TxtFilesTest() throws Exception {
         FreeStyleProject project = j.createFreeStyleProject();
-        AzureStorageBuilder builder = new AzureStorageBuilder(testEnvironment.storageCredentialId, downloadType);
-        builder.setContainerName(containername);
-        includeFilesPattern = "*.txt";
-        builder.setIncludeFilesPattern(includeFilesPattern);
-        project.getBuildersList().add(builder);
+        project.updateByXml((Source)new StreamSource(new FileInputStream(new File("D:\\jenkinsci\\windows-azure-storage-plugin\\src\\test\\resources\\WAStorageClientUploadITTxtFilesTest.xml"))));
+
+        List<Builder> builderList =  project.getBuilders();
+        for(Builder builder: builderList) {
+            if(builder instanceof AzureStorageBuilder) {
+                ((AzureStorageBuilder) builder).setContainerName(containername);
+            }
+        }
+
         FreeStyleBuild build = project.scheduleBuild2(0).get();
         FilePath filePath = build.getWorkspace();
         File file = new File(filePath.getRemote());
@@ -124,13 +138,15 @@ public class WAStorageClientDownloadIT extends IntegrationTest {
     @Test
     public void PngFilesTest() throws Exception {
         FreeStyleProject project = j.createFreeStyleProject();
-        AzureStorageBuilder builder = new AzureStorageBuilder(testEnvironment.storageCredentialId, downloadType);
-        builder.setContainerName(containername);
-        includeFilesPattern = "*";
-        builder.setIncludeFilesPattern(includeFilesPattern);
-        excludeFilesPattern = "*.txt";
-        builder.setExcludeFilesPattern(excludeFilesPattern);
-        project.getBuildersList().add(builder);
+        project.updateByXml((Source)new StreamSource(new FileInputStream(new File("D:\\jenkinsci\\windows-azure-storage-plugin\\src\\test\\resources\\WAStorageClientUploadITPngFilesTest.xml"))));
+
+        List<Builder> builderList =  project.getBuilders();
+        for(Builder builder: builderList) {
+            if(builder instanceof AzureStorageBuilder) {
+                ((AzureStorageBuilder) builder).setContainerName(containername);
+            }
+        }
+
         FreeStyleBuild build = project.scheduleBuild2(0).get();
         FilePath filePath = build.getWorkspace();
         File file = new File(filePath.getRemote());
@@ -145,13 +161,17 @@ public class WAStorageClientDownloadIT extends IntegrationTest {
     @Test
     public void SetDownLocTest() throws Exception {
         FreeStyleProject project = j.createFreeStyleProject();
-        AzureStorageBuilder builder = new AzureStorageBuilder(testEnvironment.storageCredentialId, downloadType);
-        builder.setContainerName(containername);
-        includeFilesPattern = "*.txt";
-        builder.setIncludeFilesPattern(includeFilesPattern);
+        project.updateByXml((Source)new StreamSource(new FileInputStream(new File("D:\\jenkinsci\\windows-azure-storage-plugin\\src\\test\\resources\\WAStorageClientUploadITSetDownLocTest.xml"))));
+
         downloadDirLoc = project.getRootDir().getAbsolutePath() + "\\DownloadLoc";
-        builder.setDownloadDirLoc(downloadDirLoc);
-        project.getBuildersList().add(builder);
+        List<Builder> builderList =  project.getBuilders();
+        for(Builder builder: builderList) {
+            if(builder instanceof AzureStorageBuilder) {
+                ((AzureStorageBuilder) builder).setContainerName(containername);
+                ((AzureStorageBuilder) builder).setDownloadDirLoc(downloadDirLoc);
+            }
+        }
+
         FreeStyleBuild build = project.scheduleBuild2(0).get();
         File file = new File(downloadDirLoc);
         File[] files = file.listFiles();

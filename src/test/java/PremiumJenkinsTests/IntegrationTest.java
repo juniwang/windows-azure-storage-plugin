@@ -1,4 +1,4 @@
-package JenkinsTests;
+package PremiumJenkinsTests;
 
 import com.cloudbees.plugins.credentials.CredentialsProvider;
 import com.cloudbees.plugins.credentials.CredentialsScope;

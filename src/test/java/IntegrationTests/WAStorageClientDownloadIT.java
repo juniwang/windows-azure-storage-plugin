@@ -31,7 +31,6 @@ import static org.mockito.Mockito.mock;
  * @author arroyc
  */
 public class WAStorageClientDownloadIT extends IntegrationTest {
-
     private static final Logger LOGGER = Logger.getLogger(WAStorageClientDownloadIT.class.getName());
 
     @Before

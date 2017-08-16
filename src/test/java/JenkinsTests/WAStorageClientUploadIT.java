@@ -10,6 +10,7 @@ import com.microsoft.azure.storage.blob.ListBlobItem;
 import com.microsoftopentechnologies.windowsazurestorage.WAStoragePublisher;
 import hudson.model.FreeStyleBuild;
 import hudson.model.FreeStyleProject;
+import hudson.model.Result;
 import hudson.tasks.BatchFile;
 import org.junit.After;
 import org.junit.Before;
@@ -96,11 +97,10 @@ public class WAStorageClientUploadIT extends IntegrationTest {
         WAStoragePublisher publisher = new WAStoragePublisher(
                 testEnvironment.storageCredentialId, filesPath, storageType, containername, fileShareName);
         project.getPublishersList().add(publisher);
-        FreeStyleBuild build = project.scheduleBuild2(0).get();
 
-        int count = 0;
+        FreeStyleBuild build = project.scheduleBuild2(0).get();
+        assertEquals(build.getResult(), Result.SUCCESS);
         for (ListBlobItem blobItem: container.listBlobs()) {
-            count ++;
             if (blobItem instanceof CloudBlockBlob) {
                 CloudBlockBlob blob = (CloudBlockBlob) blobItem;
                 String content = blob.downloadText();
@@ -137,11 +137,10 @@ public class WAStorageClientUploadIT extends IntegrationTest {
         WAStoragePublisher publisher = new WAStoragePublisher(
                 testEnvironment.storageCredentialId, filesPath, storageType, containername, fileShareName);
         project.getPublishersList().add(publisher);
-        FreeStyleBuild build = project.scheduleBuild2(0).get();
 
-        int count = 0;
+        FreeStyleBuild build = project.scheduleBuild2(0).get();
+        assertEquals(build.getResult(), Result.SUCCESS);
         for (ListBlobItem blobItem: container.listBlobs()) {
-            count ++;
             if (blobItem instanceof CloudBlockBlob) {
                 CloudBlockBlob blob = (CloudBlockBlob) blobItem;
                 String content = blob.downloadText();

@@ -1,4 +1,4 @@
-//package MonkeysTests;
+package MonkeysTests;
 
 import hudson.model.FreeStyleBuild;
 import hudson.model.FreeStyleProject;
@@ -21,7 +21,7 @@ import static org.junit.Assert.assertEquals;
  * Created by t-yuhang on 8/9/2017.
  */
 //@RunWith(Parameterized.class)
-//public class MonkeysTest {
+public class MonkeysTest {
 
 //    @ClassRule
 //    public static MonkeysRule monkeysRule = new MonkeysRule();
@@ -61,4 +61,4 @@ import static org.junit.Assert.assertEquals;
 //        System.out.println();
 //        return fileList;
 //    }
-//}
+}

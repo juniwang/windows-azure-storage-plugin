@@ -17,7 +17,7 @@
       <containerName>wastorageclientuploadit</containerName>
       <includeFilesPattern>*.txt</includeFilesPattern>
       <excludeFilesPattern></excludeFilesPattern>
-      <downloadDirLoc>D:\DownloadLoc</downloadDirLoc>
+      <downloadDirLoc>${JOB_NAME}</downloadDirLoc>
       <flattenDirectories>false</flattenDirectories>
       <includeArchiveZips>false</includeArchiveZips>
       <projectName></projectName>

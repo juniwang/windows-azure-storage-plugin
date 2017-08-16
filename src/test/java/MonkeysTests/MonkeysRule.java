@@ -1,4 +1,4 @@
-//package MonkeysTests;
+package MonkeysTests;
 
 import hudson.model.FreeStyleBuild;
 import hudson.model.FreeStyleProject;
@@ -17,7 +17,8 @@ import static org.junit.Assert.assertEquals;
 /**
  * Created by t-yuhang on 8/9/2017.
  */
-//public class MonkeysRule extends JenkinsRule {
+public class MonkeysRule extends JenkinsRule {
+
 
 //    public void setDirectory(File directory) throws Exception {
 //        File[] files = directory.listFiles();
@@ -38,4 +39,4 @@ import static org.junit.Assert.assertEquals;
 //        }
 //    }
 
-//}
+}

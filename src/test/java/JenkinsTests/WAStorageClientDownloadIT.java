@@ -9,6 +9,7 @@ import com.microsoftopentechnologies.windowsazurestorage.AzureStorageBuilder;
 import hudson.FilePath;
 import hudson.model.FreeStyleBuild;
 import hudson.model.FreeStyleProject;
+import hudson.model.Result;
 import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Before;
@@ -35,10 +36,6 @@ public class WAStorageClientDownloadIT extends IntegrationTest {
     private String includeFilesPattern;
     private String excludeFilesPattern;
     private String downloadDirLoc;
-
-    private boolean flattenDirectories;
-    private boolean includeArchiveZips;
-    private boolean deleteFromAzureAfterDownload;
 
     private CloudStorageAccount account;
     private CloudBlobClient blobClient;
@@ -86,12 +83,15 @@ public class WAStorageClientDownloadIT extends IntegrationTest {
     @Test
     public void AllFilesTest() throws Exception {
         FreeStyleProject project = j.createFreeStyleProject();
+
         AzureStorageBuilder builder = new AzureStorageBuilder(testEnvironment.storageCredentialId, downloadType);
         builder.setContainerName(containername);
         includeFilesPattern = "*";
         builder.setIncludeFilesPattern(includeFilesPattern);
         project.getBuildersList().add(builder);
+
         FreeStyleBuild build = project.scheduleBuild2(0).get();
+        assertEquals(build.getResult(), Result.SUCCESS);
         FilePath filePath = build.getWorkspace();
         File file = new File(filePath.getRemote());
         File[] files = file.listFiles();
@@ -105,12 +105,15 @@ public class WAStorageClientDownloadIT extends IntegrationTest {
     @Test
     public void TxtFilesTest() throws Exception {
         FreeStyleProject project = j.createFreeStyleProject();
+
         AzureStorageBuilder builder = new AzureStorageBuilder(testEnvironment.storageCredentialId, downloadType);
         builder.setContainerName(containername);
         includeFilesPattern = "*.txt";
         builder.setIncludeFilesPattern(includeFilesPattern);
         project.getBuildersList().add(builder);
+
         FreeStyleBuild build = project.scheduleBuild2(0).get();
+        assertEquals(build.getResult(), Result.SUCCESS);
         FilePath filePath = build.getWorkspace();
         File file = new File(filePath.getRemote());
         File[] files = file.listFiles();
@@ -124,6 +127,7 @@ public class WAStorageClientDownloadIT extends IntegrationTest {
     @Test
     public void PngFilesTest() throws Exception {
         FreeStyleProject project = j.createFreeStyleProject();
+
         AzureStorageBuilder builder = new AzureStorageBuilder(testEnvironment.storageCredentialId, downloadType);
         builder.setContainerName(containername);
         includeFilesPattern = "*";
@@ -131,7 +135,9 @@ public class WAStorageClientDownloadIT extends IntegrationTest {
         excludeFilesPattern = "*.txt";
         builder.setExcludeFilesPattern(excludeFilesPattern);
         project.getBuildersList().add(builder);
+
         FreeStyleBuild build = project.scheduleBuild2(0).get();
+        assertEquals(build.getResult(), Result.SUCCESS);
         FilePath filePath = build.getWorkspace();
         File file = new File(filePath.getRemote());
         File[] files = file.listFiles();
@@ -145,6 +151,7 @@ public class WAStorageClientDownloadIT extends IntegrationTest {
     @Test
     public void SetDownLocTest() throws Exception {
         FreeStyleProject project = j.createFreeStyleProject();
+
         AzureStorageBuilder builder = new AzureStorageBuilder(testEnvironment.storageCredentialId, downloadType);
         builder.setContainerName(containername);
         includeFilesPattern = "*.txt";
@@ -152,7 +159,9 @@ public class WAStorageClientDownloadIT extends IntegrationTest {
         downloadDirLoc = project.getRootDir().getAbsolutePath() + "\\DownloadLoc";
         builder.setDownloadDirLoc(downloadDirLoc);
         project.getBuildersList().add(builder);
+
         FreeStyleBuild build = project.scheduleBuild2(0).get();
+        assertEquals(build.getResult(), Result.SUCCESS);
         File file = new File(downloadDirLoc);
         File[] files = file.listFiles();
         assertEquals(files.length, 20);

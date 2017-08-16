@@ -1,4 +1,4 @@
-package PremiumJenkinsTests;
+package ParametersTests;
 
 import com.microsoft.azure.storage.CloudStorageAccount;
 import com.microsoft.azure.storage.StorageCredentialsAccountAndKey;
@@ -15,25 +15,41 @@ import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
-import java.io.File;
 import java.io.FileInputStream;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.logging.Logger;
+import java.io.File;
 
 import static com.microsoftopentechnologies.windowsazurestorage.AzureStorageBuilder.DOWNLOAD_TYPE_CONTAINER;
 import static org.junit.Assert.assertEquals;
 
 /**
- * Created by t-yuhang on 7/25/2017.
+ * Created by t-yuhang on 8/16/2017.
  */
-public class WAStorageClientDownloadIT extends IntegrationTest {
+@RunWith(Parameterized.class)
+public class WAStorageClientDownloadIT extends IntegrationTest{
 
     private static final Logger LOGGER = Logger.getLogger(WAStorageClientDownloadIT.class.getName());
+
+    private File file;
+
+    public WAStorageClientDownloadIT(File file) {
+        this.file = file;
+    }
+
+    @Parameterized.Parameters
+    public static Collection<Object[]> fileList() {
+        Collection<Object[]> fileList = new ArrayList<Object[]>();
+        fileList.add(new Object[]{new File("src\\test\\resources\\WAStorageClientUploadITAllFilesTest.xml")});
+        fileList.add(new Object[]{new File("src\\test\\resources\\WAStorageClientUploadITTxtFilesTest.xml")});
+        fileList.add(new Object[]{new File("src\\test\\resources\\WAStorageClientUploadITPngFilesTest.xml")});
+        return fileList;
+    }
 
     private String downloadType;
     private String containername;
@@ -86,34 +102,10 @@ public class WAStorageClientDownloadIT extends IntegrationTest {
     }
 
     @Test
-    public void AllFilesTest() throws Exception {
+    public void AllTest() throws Exception {
         FreeStyleProject project = j.createFreeStyleProject();
 
-        project.updateByXml((Source)new StreamSource(new FileInputStream(new File("src\\test\\resources\\WAStorageClientUploadITAllFilesTest.xml"))));
-        List<Builder> builderList = project.getBuilders();
-        for(Builder builder: builderList) {
-            if(builder instanceof AzureStorageBuilder) {
-                ((AzureStorageBuilder) builder).setContainerName(containername);
-            }
-        }
-
-        FreeStyleBuild build = project.scheduleBuild2(0).get();
-        assertEquals(build.getResult(), Result.SUCCESS);
-        FilePath filePath = build.getWorkspace();
-        File file = new File(filePath.getRemote());
-        File[] files = file.listFiles();
-        assertEquals(files.length, 50);
-        for (File f: files) {
-            String content = FileUtils.readFileToString(f);
-            assertEquals(f.getName().trim(), fileHashMap.get(content).trim());
-        }
-    }
-
-    @Test
-    public void TxtFilesTest() throws Exception {
-        FreeStyleProject project = j.createFreeStyleProject();
-
-        project.updateByXml((Source)new StreamSource(new FileInputStream(new File("src\\test\\resources\\WAStorageClientUploadITTxtFilesTest.xml"))));
+        project.updateByXml((Source)new StreamSource(new FileInputStream(file)));
         List<Builder> builderList =  project.getBuilders();
         for(Builder builder: builderList) {
             if(builder instanceof AzureStorageBuilder) {
@@ -126,56 +118,6 @@ public class WAStorageClientDownloadIT extends IntegrationTest {
         FilePath filePath = build.getWorkspace();
         File file = new File(filePath.getRemote());
         File[] files = file.listFiles();
-        assertEquals(files.length, 20);
-        for (File f: files) {
-            String content = FileUtils.readFileToString(f);
-            assertEquals(f.getName().trim(), fileHashMap.get(content).trim());
-        }
-    }
-
-    @Test
-    public void PngFilesTest() throws Exception {
-        FreeStyleProject project = j.createFreeStyleProject();
-
-        project.updateByXml((Source)new StreamSource(new FileInputStream(new File("src\\test\\resources\\WAStorageClientUploadITPngFilesTest.xml"))));
-        List<Builder> builderList =  project.getBuilders();
-        for(Builder builder: builderList) {
-            if(builder instanceof AzureStorageBuilder) {
-                ((AzureStorageBuilder) builder).setContainerName(containername);
-            }
-        }
-
-        FreeStyleBuild build = project.scheduleBuild2(0).get();
-        assertEquals(build.getResult(), Result.SUCCESS);
-        FilePath filePath = build.getWorkspace();
-        File file = new File(filePath.getRemote());
-        File[] files = file.listFiles();
-        assertEquals(files.length, 30);
-        for (File f: files) {
-            String content = FileUtils.readFileToString(f);
-            assertEquals(f.getName().trim(), fileHashMap.get(content).trim());
-        }
-    }
-
-    @Test
-    public void SetDownLocTest() throws Exception {
-        FreeStyleProject project = j.createFreeStyleProject();
-
-        project.updateByXml((Source)new StreamSource(new FileInputStream(new File("src\\test\\resources\\WAStorageClientUploadITSetDownLocTest.xml"))));
-        downloadDirLoc = project.getRootDir().getAbsolutePath() + "\\DownloadLoc";
-        List<Builder> builderList =  project.getBuilders();
-        for(Builder builder: builderList) {
-            if(builder instanceof AzureStorageBuilder) {
-                ((AzureStorageBuilder) builder).setContainerName(containername);
-                ((AzureStorageBuilder) builder).setDownloadDirLoc(downloadDirLoc);
-            }
-        }
-
-        FreeStyleBuild build = project.scheduleBuild2(0).get();
-        assertEquals(build.getResult(), Result.SUCCESS);
-        File file = new File(downloadDirLoc);
-        File[] files = file.listFiles();
-        assertEquals(files.length, 20);
         for (File f: files) {
             String content = FileUtils.readFileToString(f);
             assertEquals(f.getName().trim(), fileHashMap.get(content).trim());

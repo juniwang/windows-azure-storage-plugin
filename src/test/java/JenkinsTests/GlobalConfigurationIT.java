@@ -7,6 +7,7 @@ import com.microsoftopentechnologies.windowsazurestorage.helper.AzureCredentials
 import hudson.security.ACL;
 import hudson.util.Secret;
 import jenkins.model.Jenkins;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Collections;
@@ -21,6 +22,7 @@ public class GlobalConfigurationIT extends IntegrationTest {
 
     private static final Logger LOGGER = Logger.getLogger(GlobalConfigurationIT.class.getName());
 
+    @Before
     public void setUp() throws Exception {
         testEnvironment = new TestEnvironment();
     }

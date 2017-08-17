@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties/>
+  <scm class="hudson.plugins.git.GitSCM" plugin="git@3.3.0">
+    <configVersion>2</configVersion>
+    <userRemoteConfigs>
+      <hudson.plugins.git.UserRemoteConfig>
+        <url>https://github.com/jenkinsci/azure-credentials-plugin.git</url>
+      </hudson.plugins.git.UserRemoteConfig>
+    </userRemoteConfigs>
+    <branches>
+      <hudson.plugins.git.BranchSpec>
+        <name>*/master</name>
+      </hudson.plugins.git.BranchSpec>
+    </branches>
+    <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
+    <submoduleCfg class="list"/>
+    <extensions/>
+  </scm>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers/>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>mvn clean install -Dmaven.test.skip=true</command>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers>
+    <com.microsoftopentechnologies.windowsazurestorage.WAStoragePublisher plugin="windows-azure-storage@0.3.7-SNAPSHOT">
+      <storageType>blobstorage</storageType>
+      <containerName>testjob01</containerName>
+      <fileShareName>storage-share</fileShareName>
+      <blobProperties>
+        <cacheControl></cacheControl>
+        <contentEncoding></contentEncoding>
+        <contentLanguage></contentLanguage>
+        <contentType></contentType>
+        <detectContentType>false</detectContentType>
+      </blobProperties>
+      <pubAccessible>true</pubAccessible>
+      <cleanUpContainerOrShare>false</cleanUpContainerOrShare>
+      <allowAnonymousAccess>false</allowAnonymousAccess>
+      <uploadArtifactsOnlyIfSuccessful>false</uploadArtifactsOnlyIfSuccessful>
+      <doNotFailIfArchivingReturnsNothing>false</doNotFailIfArchivingReturnsNothing>
+      <uploadZips>false</uploadZips>
+      <doNotUploadIndividualFiles>false</doNotUploadIndividualFiles>
+      <filesPath>**/azure*.hpi</filesPath>
+      <excludeFilesPath></excludeFilesPath>
+      <virtualPath></virtualPath>
+      <doNotWaitForPreviousBuild>false</doNotWaitForPreviousBuild>
+      <storageCredentialId>ce0323ae-6dec-4d04-8ac7-48041f06a61c</storageCredentialId>
+    </com.microsoftopentechnologies.windowsazurestorage.WAStoragePublisher>
+  </publishers>
+  <buildWrappers/>
+</project>

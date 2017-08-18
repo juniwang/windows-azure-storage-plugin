@@ -29,7 +29,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.logging.Logger;
 
 public class AzureJenkinsSuite extends Suite {
     public static final String DEFAULT_JOB_FILE_PATTERN = "*.xml";
@@ -73,6 +72,7 @@ public class AzureJenkinsSuite extends Suite {
             if (jobsConfig != null) {
                 configDir = jobsConfig.path();
                 filePattern = jobsConfig.filePattern();
+                break;
             }
         }
 

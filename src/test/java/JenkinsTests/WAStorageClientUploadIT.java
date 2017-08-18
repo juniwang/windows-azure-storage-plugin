@@ -99,8 +99,9 @@ public class WAStorageClientUploadIT extends IntegrationTest {
         project.getPublishersList().add(publisher);
 
         FreeStyleBuild build = project.scheduleBuild2(0).get();
+
         assertEquals(build.getResult(), Result.SUCCESS);
-        for (ListBlobItem blobItem: container.listBlobs()) {
+        for(ListBlobItem blobItem: container.listBlobs()) {
             if (blobItem instanceof CloudBlockBlob) {
                 CloudBlockBlob blob = (CloudBlockBlob) blobItem;
                 String content = blob.downloadText();
@@ -139,8 +140,9 @@ public class WAStorageClientUploadIT extends IntegrationTest {
         project.getPublishersList().add(publisher);
 
         FreeStyleBuild build = project.scheduleBuild2(0).get();
+
         assertEquals(build.getResult(), Result.SUCCESS);
-        for (ListBlobItem blobItem: container.listBlobs()) {
+        for(ListBlobItem blobItem: container.listBlobs()) {
             if (blobItem instanceof CloudBlockBlob) {
                 CloudBlockBlob blob = (CloudBlockBlob) blobItem;
                 String content = blob.downloadText();

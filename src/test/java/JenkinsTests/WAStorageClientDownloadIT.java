@@ -91,6 +91,7 @@ public class WAStorageClientDownloadIT extends IntegrationTest {
         project.getBuildersList().add(builder);
 
         FreeStyleBuild build = project.scheduleBuild2(0).get();
+
         assertEquals(build.getResult(), Result.SUCCESS);
         FilePath filePath = build.getWorkspace();
         File file = new File(filePath.getRemote());
@@ -113,6 +114,7 @@ public class WAStorageClientDownloadIT extends IntegrationTest {
         project.getBuildersList().add(builder);
 
         FreeStyleBuild build = project.scheduleBuild2(0).get();
+
         assertEquals(build.getResult(), Result.SUCCESS);
         FilePath filePath = build.getWorkspace();
         File file = new File(filePath.getRemote());
@@ -137,6 +139,7 @@ public class WAStorageClientDownloadIT extends IntegrationTest {
         project.getBuildersList().add(builder);
 
         FreeStyleBuild build = project.scheduleBuild2(0).get();
+
         assertEquals(build.getResult(), Result.SUCCESS);
         FilePath filePath = build.getWorkspace();
         File file = new File(filePath.getRemote());
@@ -161,6 +164,7 @@ public class WAStorageClientDownloadIT extends IntegrationTest {
         project.getBuildersList().add(builder);
 
         FreeStyleBuild build = project.scheduleBuild2(0).get();
+
         assertEquals(build.getResult(), Result.SUCCESS);
         File file = new File(downloadDirLoc);
         File[] files = file.listFiles();

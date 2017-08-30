@@ -48,7 +48,7 @@ public class WAStorageClientUploadIT extends IntegrationTest {
     public void setUp() throws Exception{
         testEnvironment = new TestEnvironment();
         storageType = BLOB_STORAGE;
-        containername = testEnvironment.GenerateRandomString(6);
+        containername = testEnvironment.GenerateRandomString(16);
 
         account = new CloudStorageAccount(new StorageCredentialsAccountAndKey(
                 testEnvironment.azureStorageAccountName, testEnvironment.azureStorageAccountKey1));

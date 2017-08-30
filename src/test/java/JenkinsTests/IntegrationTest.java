@@ -6,7 +6,7 @@ import com.cloudbees.plugins.credentials.CredentialsStore;
 import com.cloudbees.plugins.credentials.domains.Domain;
 import com.microsoftopentechnologies.windowsazurestorage.helper.AzureCredentials;
 import jenkins.model.Jenkins;
-import org.junit.ClassRule;
+import org.junit.Rule;
 import org.jvnet.hudson.test.JenkinsRule;
 
 import java.util.UUID;
@@ -17,8 +17,8 @@ import java.util.logging.Logger;
  */
 public class IntegrationTest {
 
-    @ClassRule
-    public static JenkinsRule j = new JenkinsRule();
+    @Rule
+    public JenkinsRule j = new JenkinsRule();
 
     private static final Logger LOGGER = Logger.getLogger(IntegrationTest.class.getName());
 

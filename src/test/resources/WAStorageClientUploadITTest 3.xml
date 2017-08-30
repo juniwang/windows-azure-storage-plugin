@@ -13,8 +13,8 @@
     <com.microsoftopentechnologies.windowsazurestorage.AzureStorageBuilder>
       <downloadType>container</downloadType>
       <deleteFromAzureAfterDownload>false</deleteFromAzureAfterDownload>
-      <storageCredentialId>a8afbc7ca5a3a1a1b61f4ece9725785c</storageCredentialId>
-      <containerName>bootdiagnostics-dcosagent-837b84bd-b743-41bb-bf26-4a9ae9117df4</containerName>
+      <storageCredentialId>f0dbbdbb51f5e5a6023855a6abb55598</storageCredentialId>
+      <containerName>bootdiagnostics-pctestbit-9554b672-6a63-4243-bb46-f0d06647bc05</containerName>
       <includeFilesPattern>*</includeFilesPattern>
       <excludeFilesPattern></excludeFilesPattern>
       <downloadDirLoc></downloadDirLoc>

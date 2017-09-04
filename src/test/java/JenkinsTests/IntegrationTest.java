@@ -6,6 +6,7 @@ import com.cloudbees.plugins.credentials.CredentialsStore;
 import com.cloudbees.plugins.credentials.domains.Domain;
 import com.microsoftopentechnologies.windowsazurestorage.helper.AzureCredentials;
 import jenkins.model.Jenkins;
+import org.junit.ClassRule;
 import org.junit.Rule;
 import org.jvnet.hudson.test.JenkinsRule;
 

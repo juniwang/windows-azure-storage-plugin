@@ -71,24 +71,8 @@ public class WAStorageClientUploadIT extends IntegrationTest {
     }
 
     @Test
-    public void AllFilesTest() throws Exception {
+    public void Test() throws Exception {
         FreeStyleProject project = j.createFreeStyleProject();
-
-//        for (int i = 0; i < 20; i ++) {
-//            String content = testEnvironment.GenerateRandomString(32);
-//            String file = UUID.randomUUID().toString() + ".txt";
-//            fileHashMap.put(content, file);
-//            BatchFile batchFile = new BatchFile("echo " + content + " > " + file);
-//            project.getBuildersList().add(batchFile);
-//        }
-//
-//        for (int i = 0; i < 30; i ++) {
-//            String content = testEnvironment.GenerateRandomString(32);
-//            String file = UUID.randomUUID().toString() + ".png";
-//            fileHashMap.put(content, file);
-//            BatchFile batchFile = new BatchFile("echo " + content + " > " + file);
-//            project.getBuildersList().add(batchFile);
-//        }
 
         BatchFile batchFile = new BatchFile(command);
         project.getBuildersList().add(batchFile);
@@ -109,47 +93,6 @@ public class WAStorageClientUploadIT extends IntegrationTest {
             }
         }
         assertEquals(Iterables.size(container.listBlobs()), 50);
-    }
-
-    @Test
-    public void TxtFilesTest() throws Exception {
-        FreeStyleProject project = j.createFreeStyleProject();
-
-//        for (int i = 0; i < 20; i ++) {
-//            String content = testEnvironment.GenerateRandomString(32);
-//            String file = UUID.randomUUID().toString() + ".txt";
-//            fileHashMap.put(content, file);
-//            BatchFile batchFile = new BatchFile("echo " + content + " > " + file);
-//            project.getBuildersList().add(batchFile);
-//        }
-//
-//        for (int i = 0; i < 30; i ++) {
-//            String content = testEnvironment.GenerateRandomString(32);
-//            String file = UUID.randomUUID().toString() + ".png";
-//            fileHashMap.put(content, file);
-//            BatchFile batchFile = new BatchFile("echo " + content + " > " + file);
-//            project.getBuildersList().add(batchFile);
-//        }
-
-        BatchFile batchFile = new BatchFile(command);
-        project.getBuildersList().add(batchFile);
-
-        filesPath = "*.txt";
-        WAStoragePublisher publisher = new WAStoragePublisher(
-                testEnvironment.storageCredentialId, filesPath, storageType, containername, fileShareName);
-        project.getPublishersList().add(publisher);
-
-        FreeStyleBuild build = project.scheduleBuild2(0).get();
-
-        assertEquals(build.getResult(), Result.SUCCESS);
-        for(ListBlobItem blobItem: container.listBlobs()) {
-            if (blobItem instanceof CloudBlockBlob) {
-                CloudBlockBlob blob = (CloudBlockBlob) blobItem;
-                String content = blob.downloadText();
-                assertEquals(blob.getName().trim(), fileHashMap.get(content.trim()));
-            }
-        }
-        assertEquals(Iterables.size(container.listBlobs()), 20);
     }
 
     @After

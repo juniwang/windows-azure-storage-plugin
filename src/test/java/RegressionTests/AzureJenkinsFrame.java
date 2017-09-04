@@ -126,12 +126,12 @@ public class AzureJenkinsFrame {
         }
     }
 
-    protected void generateRandomFilesOnAzure(String storageCredentialId, String containername, int num, String filepattern) throws Exception {
+    protected void createRandomFilesOnAzure(String storageCredentialId, String containername, int num, String filepattern) throws Exception {
         AzureCredentials azureCredentials = getAzureCredentials(storageCredentialId);
-        generateRandomFilesOnAzure(azureCredentials.getStorageCred().getStorageAccountName(), azureCredentials.getStorageCred().getStorageAccountKey(), containername, num, filepattern);
+        createRandomFilesOnAzure(azureCredentials.getStorageCred().getStorageAccountName(), azureCredentials.getStorageCred().getStorageAccountKey(), containername, num, filepattern);
     }
 
-    protected void generateRandomFilesOnAzure(String azureStorageAccountName, String azureStorageAccountKey, String containername, int num, String filepattern) throws Exception {
+    protected void createRandomFilesOnAzure(String azureStorageAccountName, String azureStorageAccountKey, String containername, int num, String filepattern) throws Exception {
         CloudStorageAccount account = new CloudStorageAccount(new StorageCredentialsAccountAndKey(
                 azureStorageAccountName, azureStorageAccountKey));
         CloudBlobClient blobClient = account.createCloudBlobClient();
@@ -180,10 +180,6 @@ public class AzureJenkinsFrame {
 
     protected FreeStyleBuild getBuild() {
         return build;
-    }
-
-    protected FilePath getWorkSpace() {
-        return build.getWorkspace();
     }
 
     protected Result getBuildStatus() {

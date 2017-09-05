@@ -1,19 +1,21 @@
-package RegressionTests;
+package com.microsoft.test.RegressionTestFrame;
 
 import org.apache.commons.io.filefilter.WildcardFileFilter;
 import org.junit.runner.Runner;
 import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.BlockJUnit4ClassRunner;
-import org.junit.runners.Parameterized;
 import org.junit.runners.Suite;
-import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.InitializationError;
 import org.junit.runners.model.Statement;
 
 import javax.xml.transform.stream.StreamSource;
 import java.io.FileInputStream;
 import java.io.FilenameFilter;
-import java.lang.annotation.*;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -31,7 +33,7 @@ public class AzureJenkinsSuite extends Suite {
     private static final List<Runner> NO_RUNNERS = Collections.emptyList();
     private final ArrayList<Runner> runners = new ArrayList();
 
-    public AzureJenkinsSuite(Class<?> klass) throws Throwable {
+    public AzureJenkinsSuite(final Class<?> klass) throws Throwable {
         super(klass, NO_RUNNERS);
         this.createRunners(this.loadJobs());
     }
@@ -40,8 +42,8 @@ public class AzureJenkinsSuite extends Suite {
         return this.runners;
     }
 
-    private void createRunners(List<File> fileList) throws InitializationError{
-        for(File file: fileList) {
+    private void createRunners(final List<File> fileList) throws InitializationError {
+        for (File file: fileList) {
             AzureJenkinsRunner runner = new AzureJenkinsRunner(getTestClass().getJavaClass(), file);
             this.runners.add(runner);
         }
@@ -54,13 +56,12 @@ public class AzureJenkinsSuite extends Suite {
         return loadJobsFromResources(configDir, filePattern);
     }
 
-    private List<File> loadJobsFromResources(String dir, String filepattern) {
+    private List<File> loadJobsFromResources(final String dir, final String filepattern) {
         File folder = new File(dir);
-        if(folder.exists()) {
-            File[] files = folder.listFiles((FilenameFilter)new WildcardFileFilter(filepattern));
+        if (folder.exists()) {
+            File[] files = folder.listFiles((FilenameFilter) new WildcardFileFilter(filepattern));
             return Arrays.asList(files);
-        }
-        else {
+        } else {
             return new ArrayList<>();
         }
     }
@@ -68,7 +69,7 @@ public class AzureJenkinsSuite extends Suite {
     private class AzureJenkinsRunner extends BlockJUnit4ClassRunner {
         private File file;
 
-        AzureJenkinsRunner(Class<?> type, File file) throws InitializationError {
+        AzureJenkinsRunner(final Class<?> type, final File file) throws InitializationError {
             super(type);
             this.file = file;
         }
@@ -77,11 +78,11 @@ public class AzureJenkinsSuite extends Suite {
             return getTestClass().getOnlyConstructor().newInstance(new StreamSource(new FileInputStream(file)));
         }
 
-        protected void validateConstructor(List<Throwable> errors) {
+        protected void validateConstructor(final List<Throwable> errors) {
             this.validateOnlyOneConstructor(errors);
         }
 
-        protected Statement classBlock(RunNotifier notifier) {
+        protected Statement classBlock(final RunNotifier notifier) {
             return this.childrenInvoker(notifier);
         }
 

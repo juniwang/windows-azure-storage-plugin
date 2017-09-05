@@ -70,7 +70,6 @@ public class SetAzureCredentialsBuilder extends Builder implements SimpleBuildSt
         return (SetAzureCredentialsDescriptor) super.getDescriptor();
     }
 
-
     @Extension
     public static final class SetAzureCredentialsDescriptor extends BuildStepDescriptor<Builder> {
 

@@ -3,7 +3,13 @@ package com.microsoft.test.RegressionTestFrame;
 import com.cloudbees.plugins.credentials.CredentialsMatchers;
 import com.cloudbees.plugins.credentials.CredentialsProvider;
 import com.cloudbees.plugins.credentials.domains.DomainRequirement;
+import com.microsoft.azure.storage.CloudStorageAccount;
+import com.microsoft.azure.storage.StorageCredentialsAccountAndKey;
+import com.microsoft.azure.storage.blob.CloudBlobClient;
+import com.microsoft.azure.storage.blob.CloudBlobContainer;
 import com.microsoftopentechnologies.windowsazurestorage.helper.AzureCredentials;
+import hudson.EnvVars;
+import hudson.Util;
 import hudson.model.FreeStyleBuild;
 import hudson.model.FreeStyleProject;
 import hudson.model.Result;
@@ -22,7 +28,6 @@ import javax.xml.transform.Source;
 import java.io.File;
 import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 
@@ -37,9 +42,6 @@ public class AzureJenkinsFrame {
         this.source = source;
     }
 
-    private FreeStyleProject project;
-    private FreeStyleBuild build;
-
     @Rule
     public JenkinsRule j = new JenkinsRule();
 
@@ -52,28 +54,6 @@ public class AzureJenkinsFrame {
                         Collections.<DomainRequirement>emptyList()),
                 CredentialsMatchers.withId(storageCredentialId));
         return azureCredentials;
-    }
-
-    protected String generateRandomString(final int length) {
-        String uuid = UUID.randomUUID().toString();
-        return uuid.replaceAll("[^a-z0-9]", "a").substring(0, length);
-    }
-
-    protected void setEnvVar(final String key) throws Exception {
-        setEnvVar(key, "");
-    }
-
-    protected void setEnvVar(final String key, final String value) throws Exception {
-        DescribableList<NodeProperty<?>, NodePropertyDescriptor> descriptorDescribableList =
-                j.jenkins.getGlobalNodeProperties();
-        List<EnvironmentVariablesNodeProperty> environmentVariablesNodePropertyList =
-                descriptorDescribableList.getAll(EnvironmentVariablesNodeProperty.class);
-        if (environmentVariablesNodePropertyList.size() == 0) {
-            descriptorDescribableList.add(new EnvironmentVariablesNodeProperty(
-                    new EnvironmentVariablesNodeProperty.Entry(key, value)));
-        } else if (environmentVariablesNodePropertyList.size() == 1) {
-            environmentVariablesNodePropertyList.get(0).getEnvVars().put(key, value);
-        }
     }
 
     protected String getEnvVar(final String key) {
@@ -92,28 +72,50 @@ public class AzureJenkinsFrame {
         }
     }
 
+    protected EnvVars getEnvVars() {
+        DescribableList<NodeProperty<?>, NodePropertyDescriptor> descriptorDescribableList =
+                j.jenkins.getGlobalNodeProperties();
+        List<EnvironmentVariablesNodeProperty> environmentVariablesNodePropertyList =
+                descriptorDescribableList.getAll(EnvironmentVariablesNodeProperty.class);
+        if (environmentVariablesNodePropertyList.size() == 1) {
+            return environmentVariablesNodePropertyList.get(0).getEnvVars();
+        } else {
+            return new EnvVars();
+        }
+    }
+
+    protected void deleteContainerOnAzure(final String storageCredentialId,
+                                          final String containerName) throws Exception {
+            AzureCredentials.StorageAccountCredential storageAccountCredential =
+                    AzureCredentials.getStorageAccountCredential(storageCredentialId);
+            String azureStorageAccountName = storageAccountCredential.getStorageAccountName();
+            String azureStorageAccountKey = storageAccountCredential.getStorageAccountKey();
+
+            final EnvVars envVars = getEnvVars();
+            String expContainerName = Util.replaceMacro(containerName, envVars);
+
+            CloudStorageAccount account = new CloudStorageAccount(new StorageCredentialsAccountAndKey(
+                    azureStorageAccountName, azureStorageAccountKey));
+            CloudBlobClient blobClient = account.createCloudBlobClient();
+            CloudBlobContainer container = blobClient.getContainerReference(expContainerName);
+            container.deleteIfExists();
+    }
+
     protected void deleteDirAtLocal(final String filepath) throws Exception {
         File dir = new File(filepath);
         dir.deleteOnExit();
     }
 
-    protected FreeStyleProject getProject() {
-        return project;
-    }
-
-    protected FreeStyleBuild getBuild() {
-        return build;
-    }
-
-    protected Result getBuildStatus() {
-        return build.getResult();
+    protected void getJenkinsVersion() {
+        j.jenkins.
     }
 
     @Test
     public void test() throws Exception {
-        project = j.createFreeStyleProject();
+        FreeStyleProject project = j.createFreeStyleProject();
         project.updateByXml(this.source);
-        build = project.scheduleBuild2(0).get();
-        assertEquals(Result.SUCCESS, getBuildStatus());
+        FreeStyleBuild build = project.scheduleBuild2(0).get();
+        List<String> loggList = build.getLog(16);
+        assertEquals(Result.SUCCESS, build.getResult());
     }
 }

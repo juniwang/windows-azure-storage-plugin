@@ -19,6 +19,7 @@ import hudson.Util;
 import jenkins.tasks.SimpleBuildStep;
 import org.apache.commons.io.FileUtils;
 import org.kohsuke.stapler.DataBoundConstructor;
+import org.kohsuke.stapler.DataBoundSetter;
 
 import java.io.File;
 import java.util.UUID;
@@ -30,18 +31,26 @@ public class CreateRandomFilesOnAzureBuilder extends Builder implements SimpleBu
 
     private final String storageCredentialId;
     private final String containerName;
-    private int filenum;
-    private String filepattern = ".txt";
-    private int filelen;
+    private final int fileNum;
+    private String filePattern = "";
+    private int fileLen;
 
     @DataBoundConstructor
-    public CreateRandomFilesOnAzureBuilder(final String storageCredentialId, final String containerName,
-                                           final int filenum, final String filepattern, final int filelen) {
+    public CreateRandomFilesOnAzureBuilder(final String storageCredentialId,
+                                           final String containerName, final int fileNum) {
         this.storageCredentialId = storageCredentialId;
         this.containerName = containerName;
-        this.filenum = filenum;
-        this.filepattern = filepattern;
-        this.filelen = filelen;
+        this.fileNum = fileNum;
+    }
+
+    @DataBoundSetter
+    public void setFilePattern(final String filepattern) {
+        this.filePattern = filepattern;
+    }
+
+    @DataBoundSetter
+    public void setFileLen(final int fileLen) {
+        this.fileLen = fileLen;
     }
 
     public String getStorageCredentialId() {
@@ -52,16 +61,16 @@ public class CreateRandomFilesOnAzureBuilder extends Builder implements SimpleBu
         return this.containerName;
     }
 
-    public int getFilenum() {
-        return this.filenum;
+    public int getFileNum() {
+        return this.fileNum;
     }
 
-    public String getFilepattern() {
-        return this.filepattern;
+    public String getFilePattern() {
+        return this.filePattern;
     }
 
-    public int getFilelen() {
-        return this.filelen;
+    public int getFileLen() {
+        return this.fileLen;
     }
 
     private String generateRandomString(final int length) {
@@ -87,9 +96,9 @@ public class CreateRandomFilesOnAzureBuilder extends Builder implements SimpleBu
             CloudBlobContainer container = blobClient.getContainerReference(expContainerName);
             container.createIfNotExists();
 
-            for (int i = 0; i < filenum; i++) {
-                File file = new File(UUID.randomUUID().toString() + filepattern);
-                String content = generateRandomString(filelen);
+            for (int i = 0; i < fileNum; i++) {
+                File file = new File(UUID.randomUUID().toString() + filePattern);
+                String content = generateRandomString(fileLen);
                 FileUtils.writeStringToFile(file, content);
                 CloudBlockBlob blob = container.getBlockBlobReference(file.getName());
                 blob.uploadFromFile(file.getAbsolutePath());
@@ -104,7 +113,6 @@ public class CreateRandomFilesOnAzureBuilder extends Builder implements SimpleBu
     public CreateRandomFilesOnAzureDescriptor getDescriptor() {
         return (CreateRandomFilesOnAzureDescriptor) super.getDescriptor();
     }
-
 
     @Extension
     public static final class CreateRandomFilesOnAzureDescriptor extends BuildStepDescriptor<Builder> {

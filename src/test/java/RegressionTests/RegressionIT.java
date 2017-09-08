@@ -3,6 +3,7 @@ package RegressionTests;
 import com.microsoft.test.RegressionTestFrame.AzureJenkinsFrame;
 import com.microsoft.test.RegressionTestFrame.AzureJenkinsSuite;
 import hudson.model.Result;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 
@@ -15,16 +16,12 @@ import static org.junit.Assert.assertEquals;
  */
 @RunWith(AzureJenkinsSuite.class)
 public class RegressionIT extends AzureJenkinsFrame {
-
     public RegressionIT(Source source) {
         super(source);
     }
 
-    String containername;
-
-    @Before
-    public void setUp() throws Exception {
-        containername = generateRandomString(12);
-        setEnvVar("containername", containername);
+    @After
+    public void tearDown() throws Exception {
+        deleteContainerOnAzure("storageCredentialId", "${containername}");
     }
 }

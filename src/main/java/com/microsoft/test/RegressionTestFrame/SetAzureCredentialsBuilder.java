@@ -21,6 +21,7 @@ import org.kohsuke.stapler.DataBoundConstructor;
  * Created by t-yuhang on 9/4/2017.
  */
 public class SetAzureCredentialsBuilder extends Builder implements SimpleBuildStep {
+
     private final String storageCredentialId;
 
     @DataBoundConstructor

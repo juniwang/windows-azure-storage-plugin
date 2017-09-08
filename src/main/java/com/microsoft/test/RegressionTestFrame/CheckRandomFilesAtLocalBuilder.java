@@ -10,7 +10,7 @@ import hudson.tasks.BuildStepDescriptor;
 import hudson.tasks.Builder;
 import jenkins.tasks.SimpleBuildStep;
 import org.kohsuke.stapler.DataBoundConstructor;
-
+import org.kohsuke.stapler.DataBoundSetter;
 import java.io.File;
 
 import static org.junit.Assert.assertEquals;
@@ -20,39 +20,53 @@ import static org.junit.Assert.assertEquals;
  */
 public class CheckRandomFilesAtLocalBuilder extends Builder implements SimpleBuildStep {
 
-    private int filenum;
-    private String filepattern = ".txt";
-    private int filelen;
+    private String filePath = "";
+    private final int fileNum;
+    private String filePattern = "";
+    private int fileLen;
 
     @DataBoundConstructor
-    public CheckRandomFilesAtLocalBuilder(final int filenum, final String filepattern, final int filelen) {
-        this.filenum = filenum;
-        this.filepattern = filepattern;
-        this.filelen = filelen;
+    public CheckRandomFilesAtLocalBuilder(final int fileNum) {
+        this.fileNum = fileNum;
     }
 
-    public int getFilenum() {
-        return this.filenum;
+    @DataBoundSetter
+    public void setFilePath(final String filePath) {
+        this.filePath = filePath;
     }
 
-    public String getFilepattern() {
-        return this.filepattern;
+    @DataBoundSetter
+    public void setFilePattern(final String filePattern) {
+        this.filePattern = filePattern;
     }
 
-    public int getFilelen() {
-        return this.filelen;
+    @DataBoundSetter
+    public void setFileLen(final int fileLen) {
+        this.fileLen = fileLen;
+    }
+
+    public String getFilePath() {
+        return this.filePath;
+    }
+
+    public int getFileNum() {
+        return this.fileNum;
+    }
+
+    public String getFilePattern() {
+        return this.filePattern;
+    }
+
+    public int getFileLen() {
+        return this.fileLen;
     }
 
     @Override
     public void perform(final Run<?, ?> build, final FilePath workspace,
                         final Launcher launcher, final TaskListener listener) {
-        try {
-            File file = new File(workspace.getRemote());
-            File[] files = file.listFiles();
-            assertEquals(files.length, filelen);
-        } catch (Exception ex) {
-
-        }
+        File file = new File((new FilePath(workspace, this.filePath)).getRemote());
+        File[] files = file.listFiles();
+        assertEquals(files.length, fileNum);
     }
 
     @Override

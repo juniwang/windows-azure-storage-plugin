@@ -106,16 +106,11 @@ public class AzureJenkinsFrame {
         dir.deleteOnExit();
     }
 
-    protected void getJenkinsVersion() {
-        j.jenkins.
-    }
-
     @Test
     public void test() throws Exception {
         FreeStyleProject project = j.createFreeStyleProject();
         project.updateByXml(this.source);
         FreeStyleBuild build = project.scheduleBuild2(0).get();
-        List<String> loggList = build.getLog(16);
         assertEquals(Result.SUCCESS, build.getResult());
     }
 }

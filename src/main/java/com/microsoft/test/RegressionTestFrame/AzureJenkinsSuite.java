@@ -5,6 +5,7 @@ import org.junit.runner.Runner;
 import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.BlockJUnit4ClassRunner;
 import org.junit.runners.Suite;
+import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.InitializationError;
 import org.junit.runners.model.Statement;
 
@@ -76,6 +77,14 @@ public class AzureJenkinsSuite extends Suite {
 
         public Object createTest() throws Exception {
             return getTestClass().getOnlyConstructor().newInstance(new StreamSource(new FileInputStream(file)));
+        }
+
+        protected String getName() {
+            return file.getName();
+        }
+
+        protected String testName(final FrameworkMethod method) {
+            return method.getName() + this.getName();
         }
 
         protected void validateConstructor(final List<Throwable> errors) {

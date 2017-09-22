@@ -15,9 +15,6 @@ import java.util.logging.Logger;
 
 import static org.junit.Assert.assertEquals;
 
-/**
- * Created by t-yuhang on 8/4/2017.
- */
 public class GlobalConfigurationIT extends IntegrationTest {
 
     private static final Logger LOGGER = Logger.getLogger(GlobalConfigurationIT.class.getName());

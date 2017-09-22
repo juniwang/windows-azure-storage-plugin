@@ -24,9 +24,6 @@ import org.kohsuke.stapler.DataBoundSetter;
 import java.io.File;
 import java.util.UUID;
 
-/**
- * Created by t-yuhang on 9/1/2017.
- */
 public class CreateRandomFilesOnAzureBuilder extends Builder implements SimpleBuildStep {
 
     private final String storageCredentialId;

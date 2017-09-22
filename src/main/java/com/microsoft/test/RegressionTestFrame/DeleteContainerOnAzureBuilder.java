@@ -18,9 +18,6 @@ import hudson.tasks.Builder;
 import jenkins.tasks.SimpleBuildStep;
 import org.kohsuke.stapler.DataBoundConstructor;
 
-/**
- * Created by t-yuhang on 9/4/2017.
- */
 public class DeleteContainerOnAzureBuilder extends Builder implements SimpleBuildStep {
 
     private final String storageCredentialId;

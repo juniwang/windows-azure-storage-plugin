@@ -12,10 +12,8 @@ import javax.xml.transform.Source;
 
 import static org.junit.Assert.assertEquals;
 
-/**
- * Created by t-yuhang on 8/21/2017.
- */
 @RunWith(AzureJenkinsSuite.class)
+//@AzureJenkinsSuite.JobsConfig(path = "src\\test\\resources", filePattern = "*.xml")
 public class RegressionIT extends AzureJenkinsFrame {
     public RegressionIT(Source source) {
         super(source);

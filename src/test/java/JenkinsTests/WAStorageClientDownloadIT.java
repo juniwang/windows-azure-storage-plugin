@@ -25,9 +25,6 @@ import java.util.logging.Logger;
 import static com.microsoftopentechnologies.windowsazurestorage.AzureStorageBuilder.DOWNLOAD_TYPE_CONTAINER;
 import static org.junit.Assert.assertEquals;
 
-/**
- * Created by t-yuhang on 7/25/2017.
- */
 public class WAStorageClientDownloadIT extends IntegrationTest {
 
     private static final Logger LOGGER = Logger.getLogger(WAStorageClientDownloadIT.class.getName());

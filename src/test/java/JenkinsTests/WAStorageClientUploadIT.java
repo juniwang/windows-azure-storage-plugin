@@ -23,9 +23,6 @@ import java.util.logging.Logger;
 import static com.microsoftopentechnologies.windowsazurestorage.helper.Constants.BLOB_STORAGE;
 import static org.junit.Assert.assertEquals;
 
-/**
- * Created by t-yuhang on 7/26/2017.
- */
 public class WAStorageClientUploadIT extends IntegrationTest {
 
     private static final Logger LOGGER = Logger.getLogger(WAStorageClientUploadIT.class.getName());

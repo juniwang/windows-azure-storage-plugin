@@ -15,9 +15,6 @@ import java.io.File;
 
 import static org.junit.Assert.assertEquals;
 
-/**
- * Created by t-yuhang on 9/4/2017.
- */
 public class CheckRandomFilesAtLocalBuilder extends Builder implements SimpleBuildStep {
 
     private String filePath = "";

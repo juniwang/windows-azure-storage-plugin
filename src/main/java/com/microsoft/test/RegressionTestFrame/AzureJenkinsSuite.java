@@ -23,9 +23,6 @@ import java.util.Collections;
 import java.util.List;
 import java.io.File;
 
-/**
- * Created by t-yuhang on 8/18/2017.
- */
 public class AzureJenkinsSuite extends Suite {
 
     public static final String DEFAULT_CONFIG_DIR = "src\\test\\resources";

@@ -31,9 +31,6 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-/**
- * Created by t-yuhang on 8/21/2017.
- */
 public class AzureJenkinsFrame {
 
     private Source source;
@@ -103,7 +100,7 @@ public class AzureJenkinsFrame {
 
     protected void deleteDirAtLocal(final String filepath) throws Exception {
         File dir = new File(filepath);
-        dir.deleteOnExit();
+        dir.delete();
     }
 
     @Test

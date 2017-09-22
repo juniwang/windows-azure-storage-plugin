@@ -19,9 +19,6 @@ import org.kohsuke.stapler.DataBoundConstructor;
 import java.util.List;
 import java.util.UUID;
 
-/**
- * Created by t-yuhang on 9/6/2017.
- */
 public class SetRandomEnvVarsBuilder extends Builder implements SimpleBuildStep {
 
     private final String key;

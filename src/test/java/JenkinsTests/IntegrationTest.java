@@ -13,9 +13,6 @@ import org.jvnet.hudson.test.JenkinsRule;
 import java.util.UUID;
 import java.util.logging.Logger;
 
-/**
- * Created by t-yuhang on 7/25/2017.
- */
 public class IntegrationTest {
 
     @Rule

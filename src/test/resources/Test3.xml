@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+  <keepDependencies>false</keepDependencies>
+  <properties/>
+  <scm class="hudson.scm.NullSCM"/>
+  <canRoam>false</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers/>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <com.microsoft.test.RegressionTestFrame.SetRandomEnvVarsBuilder>
+      <key>containername</key>
+      <valueLen>12</valueLen>
+    </com.microsoft.test.RegressionTestFrame.SetRandomEnvVarsBuilder>
+
+    <com.microsoft.test.RegressionTestFrame.SetAzureCredentialsBuilder>
+      <storageCredentialId>storageCredentialId</storageCredentialId>
+    </com.microsoft.test.RegressionTestFrame.SetAzureCredentialsBuilder>
+
+    <com.microsoft.test.RegressionTestFrame.CreateRandomFilesOnAzureBuilder>
+      <storageCredentialId>storageCredentialId</storageCredentialId>
+      <containerName>${containername}</containerName>
+      <fileNum>6</fileNum>
+      <filePattern>.txt</filePattern>
+      <fileLen>10</fileLen>
+    </com.microsoft.test.RegressionTestFrame.CreateRandomFilesOnAzureBuilder>
+
+    <com.microsoftopentechnologies.windowsazurestorage.AzureStorageBuilder>
+      <downloadType>container</downloadType>
+      <deleteFromAzureAfterDownload>false</deleteFromAzureAfterDownload>
+      <storageCredentialId>storageCredentialId</storageCredentialId>
+      <containerName>${containername}</containerName>
+      <includeFilesPattern>*</includeFilesPattern>
+      <excludeFilesPattern></excludeFilesPattern>
+      <downloadDirLoc>workspace</downloadDirLoc>
+      <flattenDirectories>false</flattenDirectories>
+      <includeArchiveZips>false</includeArchiveZips>
+      <projectName></projectName>
+    </com.microsoftopentechnologies.windowsazurestorage.AzureStorageBuilder>
+
+    <com.microsoft.test.RegressionTestFrame.CheckRandomFilesAtLocalBuilder>
+      <filePath>workspace</filePath>
+      <fileNum>6</fileNum>
+      <filePattern>.txt</filePattern>
+      <fileLen>10</fileLen>
+    </com.microsoft.test.RegressionTestFrame.CheckRandomFilesAtLocalBuilder>  
+  </builders>
+  <publishers/>
+  <buildWrappers/>
+</project>
